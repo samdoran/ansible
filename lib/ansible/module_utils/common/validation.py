@@ -450,7 +450,10 @@ def check_type_int(value):
         return value
 
     if isinstance(value, string_types):
-        return int(value)
+        try:
+            return int(value)
+        except ValueError:
+            pass
 
     raise TypeError('%s cannot be converted to an int' % type(value))
 
@@ -466,7 +469,10 @@ def check_type_float(value):
         return value
 
     if isinstance(value, (binary_type, text_type, int)):
-        return float(value)
+        try:
+            return float(value)
+        except ValueError:
+            pass
 
     raise TypeError('%s cannot be converted to a float' % type(value))
 
@@ -482,14 +488,14 @@ def check_type_raw(value):
 
 def check_type_bytes(value):
     try:
-        human_to_bytes(value)
+        return human_to_bytes(value)
     except ValueError:
         raise TypeError('%s cannot be converted to a Byte value' % type(value))
 
 
 def check_type_bits(value):
     try:
-        human_to_bytes(value, isbits=True)
+        return human_to_bytes(value, isbits=True)
     except ValueError:
         raise TypeError('%s cannot be converted to a Bit value' % type(value))
 
@@ -500,7 +506,6 @@ def check_type_jsonarg(value):
     """
     if isinstance(value, (text_type, binary_type)):
         return value.strip()
-    else:
-        if isinstance(value, (list, tuple, dict)):
-            return jsonify(value)
+    elif isinstance(value, (list, tuple, dict)):
+        return jsonify(value)
     raise TypeError('%s cannot be converted to a json string' % type(value))
