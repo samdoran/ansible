@@ -22,7 +22,7 @@ def get_distribution():
     :returns: Name of the distribution the module is running on
 
     This function attempts to determine what distribution the code is running
-    on and return a string representing that value. If the platform is Linuux
+    on and return a string representing that value. If the platform is Linux
     and the distribution cannot be determined, it returns ``OtherLinux``.
     '''
     distribution = distro.id().capitalize()
